@@ -17,3 +17,7 @@ pure-llm-redactor/
 
 # os / editor
 .DS_Store
+trainer_checkpoints/
+.venv-export/
+.nodetest/
+onnx_quantized/

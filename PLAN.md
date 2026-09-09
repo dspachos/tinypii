@@ -1,6 +1,6 @@
 # Client-Side Pure-Neural PII Redaction — Build Plan
 
-Status: planned, not started · Review date: 2025-09-09
+Status: phases 1–4 complete — quality/footprint/limitations in RESULTS.md
 
 ## 1. Goal
 

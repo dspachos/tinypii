@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client-Side Pure-Neural PII Redactor</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; color: #1a1a2e; }
+    textarea { width: 100%; height: 110px; font-size: 14px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+    button { padding: 10px 20px; font-weight: 600; cursor: pointer; border: 0; border-radius: 6px; background: #4f46e5; color: #fff; }
+    button:disabled { background: #9ca3af; cursor: wait; }
+    #output { background: #f0f2f5; padding: 14px; border-radius: 6px; white-space: pre-wrap; min-height: 48px; margin-top: 10px; font-size: 14px; }
+    .warn { background: #fef3c7; border: 1px solid #f59e0b; color: #92400e; padding: 10px 14px; border-radius: 6px; margin-top: 10px; font-size: 13px; display: none; }
+    .meta { color: #6b7280; font-size: 12px; margin-top: 14px; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; background: #e0e7ff; color: #3730a3; font-size: 11px; font-weight: 600; }
+    h2 { margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+  <h2>Client-Side Pure-Neural PII Redactor</h2>
+  <p class="meta">
+    <span class="badge" id="device">loading…</span>
+    <span class="badge" id="dtype">INT8</span>
+    <span class="badge">no regex · no network calls after load</span>
+  </p>
+
+  <textarea id="inputText">Hi, I am Marcus Vance. Charge 4532-1182-9920-1092 and reach me at contact@acme.org.</textarea><br><br>
+  <button id="runBtn" disabled>Loading model…</button>
+
+  <h3>Redacted output</h3>
+  <div id="output">—</div>
+  <div id="guardWarn" class="warn">
+    <strong>Verification guard:</strong> the output did not reproduce the input
+    verbatim outside the redaction tags. Treat it with care — the model may have
+    altered non-PII text or missed a redaction.
+  </div>
+
+  <p class="meta" id="status">Loading model (~93 MB, cached after first load)…</p>
+  <p class="meta">
+    Tags: [NAME] [CREDIT_CARD] [EMAIL] [PHONE] [ADDRESS]. Multi-line input is
+    flattened (tokenizer limitation). Long text is chunked by sentence.
+    Serve with: <code>python3 -m http.server</code>
+  </p>
+
+  <script type="module">
+    import { AutoTokenizer, AutoModelForSeq2SeqLM, TextStreamer, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.6';
+    env.allowLocalModels = true;
+
+    const $ = id => document.getElementById(id);
+    const TAG_RE = /\[(NAME|CREDIT_CARD|EMAIL|PHONE|ADDRESS)\]/g;
+
+    // Same check as the Python gate: output tokens must reproduce input tokens
+    // in order (punctuation-insensitive). Pure string ops — no regex on PII.
+    function verifyCopy(input, output) {
+      const toks = s => s.replace(TAG_RE, ' ').replace(/[^0-9A-Za-z]+/g, ' ').split(' ').filter(Boolean);
+      const out = toks(output), inp = toks(input);
+      let i = 0;
+      for (const w of out) {
+        while (i < inp.length && inp[i] !== w) i++;
+        if (i === inp.length) return false;
+        i++;
+      }
+      return true;
+    }
+
+    function chunk(text, maxLen = 400) {
+      const flat = text.replace(/\s*\n\s*/g, ' ').trim();  // tokenizer can't emit newlines
+      if (flat.length <= maxLen) return [flat];
+      const parts = flat.match(/[^.!?]+[.!?]+|\S+$/g) || [flat];
+      const chunks = [];
+      let cur = '';
+      for (const p of parts) {
+        if ((cur + p).length > maxLen && cur) { chunks.push(cur.trim()); cur = ''; }
+        cur += p + ' ';
+      }
+      if (cur.trim()) chunks.push(cur.trim());
+      return chunks;
+    }
+
+    let model, tokenizer, device = 'wasm';
+    try {
+      if (navigator.gpu) {
+        const adapter = await navigator.gpu.requestAdapter();
+        if (adapter) device = 'webgpu';
+      }
+    } catch { /* stay on wasm */ }
+    $('device').textContent = device.toUpperCase();
+
+    try {
+      tokenizer = await AutoTokenizer.from_pretrained('./web_llm_model');
+      model = await AutoModelForSeq2SeqLM.from_pretrained('./web_llm_model', {
+        dtype: 'q8',
+        device,
+        progress_callback: p => {
+          if (p.status === 'progress' && p.file && p.file.endsWith('.onnx'))
+            $('status').textContent = `Downloading ${p.file} — ${(p.loaded / 1e6).toFixed(1)}/${(p.total / 1e6).toFixed(1)} MB`;
+        },
+      });
+      $('status').textContent = 'Model loaded. Everything from here stays on this device.';
+      $('runBtn').disabled = false;
+      $('runBtn').textContent = 'Redact';
+    } catch (e) {
+      $('status').textContent = `Load failed: ${e.message} — did you serve this over http (python3 -m http.server)?`;
+    }
+
+    $('runBtn').onclick = async () => {
+      const input = $('inputText').value.trim();
+      if (!input) return;
+      $('runBtn').disabled = true;
+      $('guardWarn').style.display = 'none';
+      $('output').textContent = '';
+      const t0 = performance.now();
+      const chunks = chunk(input);
+      let result = '', guardOk = true;
+      for (const c of chunks) {
+        const enc = await tokenizer('redact: ' + c, { truncation: true, max_length: 256 });
+        const streamer = new TextStreamer(tokenizer, {
+          skip_prompt: true,
+          callback_function: t => { $('output').textContent = result + t; },
+        });
+        const out = await model.generate({ ...enc, max_new_tokens: 128, streamer });
+        const text = tokenizer.decode(out[0], { skip_special_tokens: true });
+        result += text; // decoded output is authoritative; streamer is just live feedback
+        guardOk = guardOk && verifyCopy(c, text);
+      }
+      const ms = (performance.now() - t0).toFixed(0);
+      $('output').textContent = result;
+      if (!guardOk) $('guardWarn').style.display = 'block';
+      $('status').textContent = `Done in ${ms} ms on ${device.toUpperCase()} · ${chunks.length} chunk(s) · guard ${guardOk ? 'OK' : 'FLAGGED'}`;
+      $('runBtn').disabled = false;
+    };
+  </script>
+</body>
+</html>
