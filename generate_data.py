@@ -66,6 +66,12 @@ NOISE_LEVELS = [
     "angry or rude customer tone",
     "non-native English phrasing",
 ]
+FORMAT_VARIANTS = [
+    ("normal formatting", 0.7),
+    ("the entire message written in uppercase", 0.1),
+    ("a multi-line note with line breaks, preserved in redacted_target", 0.1),
+    ("entities glued to punctuation without spaces, e.g. contact:bob@x.com|4111222233334444", 0.1),
+]
 ENTITY_LOADS = [
     "exactly one PII entity",
     "two different PII entities",
@@ -156,6 +162,10 @@ Hard rules:
    names and addresses must look realistic and vary between examples.
 4. Messages are 1-3 sentences, 20-600 characters.
 5. If asked for a zero-PII message, redacted_target equals raw_input exactly.
+6. Honorifics/titles (Dr., Prof., Mr., Ms., Mrs.) are NOT PII: keep them
+   outside the tags, e.g. "Dr. [NAME]".
+7. Digit count decides the tag: 13-16 digit numbers are [CREDIT_CARD]
+   (however they are separated); 7-12 digit numbers are [PHONE].
 Respond with JSON."""
 
 
@@ -189,6 +199,7 @@ def batch_instruction(rng: random.Random, batch_size: int) -> str:
             "emails, phones, addresses). For each, redacted_target equals "
             "raw_input exactly."
         )
+    fmt = rng.choices([f for f, _ in FORMAT_VARIANTS], [w for _, w in FORMAT_VARIANTS])[0]
     return (
         f"Generate {batch_size} diverse pairs.\n"
         f"- Scenario: {rng.choice(SCENARIOS)}\n"
@@ -196,6 +207,7 @@ def batch_instruction(rng: random.Random, batch_size: int) -> str:
         f"- Name style: {rng.choice(NAME_STYLES)}\n"
         f"- Tone/noise: {rng.choice(NOISE_LEVELS)}\n"
         f"- Entity load: {rng.choice(ENTITY_LOADS)}\n"
+        f"- Formatting: {fmt}\n"
         "- Vary sentence structures across pairs; avoid formulaic "
         "'confirm/repeat the same information' phrasing unless the entity "
         "load explicitly requires repetition."
@@ -273,8 +285,8 @@ def run_teacher(args: argparse.Namespace) -> None:
 
 SEED_NAMES = [
     "Alice Smith", "Marcus Vance", "Elena Rostova", "Devon Lee", "Hiroshi Tanaka",
-    "Fatima Al-Sayed", "Dr. Lena Weber", "Mr. O'Brien", "Anne-Marie Sutton",
-    "Prof. Nkechi Obi", "Kwame Mensah", "Sofia Rossi", "Priya Nair", "Ivan Petrov",
+    "Fatima Al-Sayed", "Lena Weber", "O'Brien", "Anne-Marie Sutton",
+    "Nkechi Obi", "Kwame Mensah", "Sofia Rossi", "Priya Nair", "Ivan Petrov",
     "Chen Wei", "Sunny Rae", "Lars Eriksen", "Amara Diallo", "Tomás Rivera",
     "Ingrid Johansson", "single-name Zephyr", "Ravi Patel",
 ]
