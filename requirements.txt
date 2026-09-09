@@ -2,3 +2,7 @@ openai>=1.40
 instructor>=1.4
 pydantic>=2.7
 tqdm>=4.66
+torch>=2.9
+transformers>=4.53
+datasets>=4.0
+accelerate>=1.1
