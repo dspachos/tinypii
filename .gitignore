@@ -1,0 +1,19 @@
+# secrets — never commit
+.env.local
+.env.*
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+
+# generated data & model artifacts (large, regenerable)
+data/
+*.onnx
+onnx_generative/
+web_llm_model/
+saved_generative_pii_model/
+pure-llm-redactor/
+
+# os / editor
+.DS_Store
