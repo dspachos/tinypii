@@ -21,3 +21,4 @@ trainer_checkpoints/
 .venv-export/
 .nodetest/
 onnx_quantized/
+.pi/
