@@ -195,7 +195,10 @@ def make_client():
 WEAK_SPOTS = [
     "phone numbers written with dots (555.010.9988) or parentheses, tagged [PHONE]",
     "messages written fully in UPPERCASE that contain person names",
-    "multi-line notes where line breaks must be preserved exactly in redacted_target",
+    "very short uppercase commands containing person names (CALL TOM REED, ASK FOR LINDA, EMAIL ANNA SMITH)",
+    "short messages mentioning two different people by name",
+    "messages written fully in UPPERCASE that contain person names",
+    "PII preceded by a short lead-in word or label that must be kept, e.g. 'ph 555.010.9988', 'contact:bob@x.com', 'card 4111 2222 3333 4444' — never drop the lead-in",
     "PII wrapped in quotes or parentheses; keep quotes/parentheses outside the tags",
     "messages with deliberate typos (dont, recieve, cardd) preserved exactly in redacted_target, never autocorrected",
     "zero-PII messages that mention meeting times, room numbers, table numbers, gate numbers or flight numbers — these contain NO PII and must stay fully unredacted",

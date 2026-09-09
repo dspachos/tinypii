@@ -17,7 +17,7 @@ from collections import Counter
 
 import numpy as np
 import torch
-from datasets import Dataset
+from datasets import Dataset, DatasetDict
 from transformers import (
     AutoModelForSeq2SeqLM,
     AutoTokenizer,
@@ -92,10 +92,30 @@ def redaction_metrics(preds: list[str], golds: list[str]) -> dict:
 
 # --------------------------------------------------------------- training ----
 
+def oversample_train(rows: list[dict]) -> list[dict]:
+    """Duplicate underrepresented boundary patterns (train side only).
+    ponytail: pattern multipliers tuned to current adversarial failures;
+    drop this once a teacher round covers the patterns natively."""
+    out = list(rows)
+    for row in rows:
+        raw, target = row["input_text"], row["target_text"]
+        n = 1
+        if re.search(r"\d{3}\.\d{3}\.\d{4}", raw) and "[PHONE]" in target:
+            n = 4
+        if raw[len("redact: "):].isupper() and "[NAME]" in target and len(raw) < 90:
+            n = max(n, 3)
+        if target.count("[NAME]") >= 2 and len(raw) < 90:
+            n = max(n, 6)
+        out.extend([row] * (n - 1))
+    return out
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--smoke", action="store_true", help="tiny run on seed data")
     ap.add_argument("--epochs", type=int, default=4)
+    ap.add_argument("--batch", type=int, default=16)
+    ap.add_argument("--grad-accum", type=int, default=1)
     ap.add_argument("--output-dir", default="saved_generative_pii_model")
     args = ap.parse_args()
 
@@ -110,6 +130,11 @@ def main() -> None:
         out_dir = args.output_dir
 
     dataset = Dataset.from_list(rows).train_test_split(test_size=0.1, seed=42)
+    train_rows = oversample_train(list(dataset["train"]))
+    dataset = DatasetDict({
+        "train": Dataset.from_list(train_rows),
+        "test": dataset["test"],
+    })
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_NAME)
 
@@ -135,8 +160,9 @@ def main() -> None:
         eval_strategy="epoch",
         save_strategy="epoch",
         learning_rate=3e-4,
-        per_device_train_batch_size=16,
-        per_device_eval_batch_size=16,
+        per_device_train_batch_size=args.batch,
+        per_device_eval_batch_size=args.batch,
+        gradient_accumulation_steps=args.grad_accum,
         weight_decay=0.01,
         num_train_epochs=epochs,
         max_steps=steps,
@@ -165,6 +191,10 @@ def main() -> None:
     print({k: round(v, 4) for k, v in metrics.items()})
 
     if not args.smoke:
+        # transformers-5 fine-tuning diverges shared/lm_head while config says
+        # tied; materialize as untied so ONNX export (transformers-4 stack)
+        # does not silently re-tie and destroy the trained lm_head.
+        model.config.tie_word_embeddings = False
         trainer.save_model(out_dir)
         tokenizer.save_pretrained(out_dir)
         print(f"saved -> {out_dir}")

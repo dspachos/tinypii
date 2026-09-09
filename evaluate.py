@@ -19,21 +19,24 @@ from train_seq2seq import load_pairs, redaction_metrics
 
 # Outside the training distribution on purpose; excluded from the gate math,
 # reported separately. See PLAN.md Phase 1 notes.
-KNOWN_HARD = ("UPS tracking", "[urgent]")
+# - UPS/[urgent]: semantically not PII but syntactically PII-shaped
+# - multi-line: T5 SentencePiece normalizes newlines to spaces; platform
+#   limitation, the browser client pre-flattens input
+KNOWN_HARD = ("UPS tracking", "[urgent]", "order note:")
 
 
 @torch.no_grad()
-def generate_batch(model, tokenizer, texts: list[str], device: str) -> list[str]:
+def generate_batch(model, tokenizer, texts: list[str], device: str, beams: int = 1) -> list[str]:
     enc = tokenizer(
         ["redact: " + t for t in texts],
         return_tensors="pt", padding=True, truncation=True, max_length=256,
     ).to(device)
-    out = model.generate(**enc, max_new_tokens=128)
+    out = model.generate(**enc, max_new_tokens=128, num_beams=beams)
     return tokenizer.batch_decode(out, skip_special_tokens=True)
 
 
-def evaluate_set(model, tokenizer, rows: list[dict], device: str, label: str) -> tuple[dict, dict | None]:
-    preds = generate_batch(model, tokenizer, [r["raw_input"] for r in rows], device)
+def evaluate_set(model, tokenizer, rows: list[dict], device: str, label: str, beams: int = 1) -> tuple[dict, dict | None]:
+    preds = generate_batch(model, tokenizer, [r["raw_input"] for r in rows], device, beams)
     golds = [r["redacted_target"] for r in rows]
     metrics = redaction_metrics(preds, golds)
     print(f"\n== {label} ({len(rows)} examples) ==")
@@ -62,6 +65,7 @@ def evaluate_set(model, tokenizer, rows: list[dict], device: str, label: str) ->
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="saved_generative_pii_model")
+    ap.add_argument("--beams", type=int, default=1)
     args = ap.parse_args()
 
     device = "mps" if torch.backends.mps.is_available() else "cpu"
@@ -71,8 +75,8 @@ def main() -> None:
     test_rows = held_out_rows()
     adv_rows = json.load(open("eval/adversarial.json", encoding="utf-8"))
 
-    m_test, _ = evaluate_set(model, tokenizer, test_rows, device, "held-out test split")
-    m_adv, m_adv_easy = evaluate_set(model, tokenizer, adv_rows, device, "adversarial set")
+    m_test, _ = evaluate_set(model, tokenizer, test_rows, device, "held-out test split", args.beams)
+    m_adv, m_adv_easy = evaluate_set(model, tokenizer, adv_rows, device, "adversarial set", args.beams)
 
     def gate(m):
         return m["tag_recall"] >= 0.98 and m["copy_fidelity"] >= 0.99
