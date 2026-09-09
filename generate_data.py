@@ -191,21 +191,38 @@ def make_client():
     )
 
 
-def batch_instruction(rng: random.Random, batch_size: int) -> str:
+# Targeted weak-spot instructions for focused regeneration rounds.
+WEAK_SPOTS = [
+    "phone numbers written with dots (555.010.9988) or parentheses, tagged [PHONE]",
+    "messages written fully in UPPERCASE that contain person names",
+    "multi-line notes where line breaks must be preserved exactly in redacted_target",
+    "PII wrapped in quotes or parentheses; keep quotes/parentheses outside the tags",
+    "messages with deliberate typos (dont, recieve, cardd) preserved exactly in redacted_target, never autocorrected",
+    "zero-PII messages that mention meeting times, room numbers, table numbers, gate numbers or flight numbers — these contain NO PII and must stay fully unredacted",
+]
+
+
+def batch_instruction(rng: random.Random, batch_size: int, focus: bool = False) -> str:
     if rng.random() < 0.10:
+        control = (
+            "that contain NO personally identifiable information at all (no names, "
+            "cards, emails, phones, addresses) — feel free to mention times, "
+            "rooms, tables, or order subjects"
+            if focus else " (no names, cards, emails, phones, addresses)"
+        )
         return (
-            f"Generate {batch_size} diverse conversational messages that contain "
-            "NO personally identifiable information at all (no names, cards, "
-            "emails, phones, addresses). For each, redacted_target equals "
-            "raw_input exactly."
+            f"Generate {batch_size} diverse conversational messages "
+            f"{control}. For each, redacted_target equals raw_input exactly."
         )
     fmt = rng.choices([f for f, _ in FORMAT_VARIANTS], [w for _, w in FORMAT_VARIANTS])[0]
+    weak = f"- Focus: {rng.choice(WEAK_SPOTS)}\n" if focus and rng.random() < 0.7 else ""
     return (
         f"Generate {batch_size} diverse pairs.\n"
         f"- Scenario: {rng.choice(SCENARIOS)}\n"
         f"- If a credit card appears, format: {rng.choice(CARD_FORMATS)}\n"
         f"- Name style: {rng.choice(NAME_STYLES)}\n"
         f"- Tone/noise: {rng.choice(NOISE_LEVELS)}\n"
+        f"{weak}"
         f"- Entity load: {rng.choice(ENTITY_LOADS)}\n"
         f"- Formatting: {fmt}\n"
         "- Vary sentence structures across pairs; avoid formulaic "
@@ -244,7 +261,8 @@ def run_teacher(args: argparse.Namespace) -> None:
                     response_model=SyntheticBatch,
                     messages=[
                         {"role": "system", "content": SYSTEM_PROMPT},
-                        {"role": "user", "content": batch_instruction(rng, args.batch_size)},
+                        {"role": "user",
+                         "content": batch_instruction(rng, args.batch_size, focus=args.focus)},
                     ],
                     temperature=1.0,
                     max_retries=2,
@@ -393,6 +411,8 @@ def main() -> None:
     p_teacher.add_argument("--target", type=int, default=4000)
     p_teacher.add_argument("--batch-size", type=int, default=8)
     p_teacher.add_argument("--model", default="gemini-2.5-flash")
+    p_teacher.add_argument("--focus", action="store_true",
+                           help="bias generation toward known weak spots")
     p_teacher.add_argument("--out", default="data/synthetic.jsonl")
 
     p_seed = sub.add_parser("seed", help="Generate template-based seed pairs")
