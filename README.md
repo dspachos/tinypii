@@ -71,8 +71,9 @@ test/                    node smoke, parity, and headless browser tests
 docs/                    historical build plan and measured results
 ```
 
-`data/` and `models/` are generated outputs, gitignored. Each phase folder has its own README
-with prerequisites, commands, and cost notes.
+`models/` is a generated output, gitignored. The QA-gated training pairs ship in
+[`data/`](data/README.md), so retraining needs no API access. Each phase folder has its own
+README with prerequisites, commands, and cost notes.
 
 ## Pipeline at a glance
 
@@ -86,8 +87,8 @@ with prerequisites, commands, and cost notes.
 
 ## Quickstart
 
-The repo does not ship model weights or training data — both are regenerable through the
-pipeline. After phases 1–4, or with your own `web/model/` in place:
+The repo ships the training data (`data/`) but not model weights — rebuild those with phases
+2–4:
 
 ```bash
 make install   # once: both python virtualenvs + node dev dependencies

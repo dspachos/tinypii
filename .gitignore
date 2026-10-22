@@ -13,7 +13,10 @@ __pycache__/
 node_modules/
 
 # generated data & model artifacts (large, regenerable)
-data/
+data/*
+!data/README.md
+!data/seed.jsonl
+!data/synthetic.jsonl
 models/
 web/model/
 trainer_checkpoints/

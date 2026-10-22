@@ -1,0 +1,200 @@
+{"raw_input": "Refund card 3321-8196 0013 3890 belonging to Alice Smith.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Email receipt to mvela@x.org.", "redacted_target": "Email receipt to [EMAIL].", "source": "seed"}
+{"raw_input": "Reached out to single-name Zephyr at 030.564.1395 about the 2553419283276483 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "guest single-name Zephyr, phone (012) 269-1669, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Meeting moved to 3pm, room 402, bring the slides.", "redacted_target": "Meeting moved to 3pm, room 402, bring the slides.", "source": "seed"}
+{"raw_input": "name Nkechi Obi email a.kwarteng@clinic.health card 0391.1718.2278.2489 phone 383.465.7871", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "Refund card 9839.3010.3105.1834 belonging to Kwame Mensah.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "guest Sofia Rossi, phone 731.781.0801, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "guest Sunny Rae, phone +44 20 0980 5009, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Hi, I am Lars Eriksen. Charge 2191-3619 3990 9169 and reach me at contact@acme.org.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Refund card 9911-8384 2513 5427 belonging to Alice Smith.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Ship to 12 Rue de Rivoli, Paris and call 7868011280 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "guest Hiroshi Tanaka, phone 256.342.1607, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Reached out to Sofia Rossi at +44 20 2940 1965 about the 3303654145868501 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "guest Tom\u00e1s Rivera, phone +44 20 6564 8236, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "guest Amara Diallo, phone 951.343.3200, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Package left with the front desk, no signature needed.", "redacted_target": "Package left with the front desk, no signature needed.", "source": "seed"}
+{"raw_input": "guest Marcus Vance, phone 346.706.5627, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "guest Tom\u00e1s Rivera, phone 417-080-5310, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "My VISA is 2327-1937-4529-9124.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Refund card 3799-6507 5273 5454 belonging to Anne-Marie Sutton.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Reached out to Chen Wei at 444.313.5182 about the 1436.3495.7885.6855 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Reached out to Anne-Marie Sutton at 4271094777 about the 8941-3435 2408 2400 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Hi, I am Anne-Marie Sutton. Charge 1167-1902 2941 3186 and reach me at support@shopnow.net.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Email receipt to devon.lee@workstation.io.", "redacted_target": "Email receipt to [EMAIL].", "source": "seed"}
+{"raw_input": "Ship to 3 Via Roma, Milan and call 5674680715 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Refund card 0876038597703482 belonging to Priya Nair.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Refund card 7127-4846 7737 8263 belonging to O'Brien.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Email receipt to x.y@z.co.", "redacted_target": "Email receipt to [EMAIL].", "source": "seed"}
+{"raw_input": "Hi, I am Marcus Vance. Charge 0455-6238 6922 2196 and reach me at mvela@x.org.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Refund card 2368516048175496 belonging to Chen Wei.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "guest Devon Lee, phone 179.640.5377, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Refund card 8506-4317 1390 0532 belonging to Ravi Patel.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Refund card 3673.6576.6156.5452 belonging to single-name Zephyr.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Refund card 6049451983273158 belonging to Ivan Petrov.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Hi, I am Fatima Al-Sayed. Charge 4550.2296.1201.8366 and reach me at dev+test@mail.co.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Refund card 6797643815614978 belonging to Anne-Marie Sutton.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "name Devon Lee email user123@gmail.com card 7622-6838-8516-0607 phone 5969664160", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "Ship to 12 Rue de Rivoli, Paris and call +44 20 7151 8203 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "name Sofia Rossi email dev+test@mail.co card 6659-0515-1864-4925 phone (925) 462-9148", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "Hi, I am single-name Zephyr. Charge 5818141247826137 and reach me at support@shopnow.net.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "name Devon Lee email mvela@x.org card 2204-7277 9010 4328 phone +44 20 8614 3410", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "Refund card 9808-9324-6095-3962 belonging to Devon Lee.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "guest Sofia Rossi, phone 2170430305, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Refund card 4479.6275.7059.6401 belonging to Elena Rostova.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "name Priya Nair email r.patel@guest.net card 0927-5571-9285-6543 phone 027.868.1447", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "Reached out to Lena Weber at 3132370589 about the 2172-7155 1884 4225 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "My VISA is 9078.4473.6471.0276.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "name O'Brien email support@shopnow.net card 1473 2104 6963 2595 phone +44 20 2787 7470", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "My VISA is 5004797480162456.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Email receipt to r.patel@guest.net.", "redacted_target": "Email receipt to [EMAIL].", "source": "seed"}
+{"raw_input": "Email receipt to a.kwarteng@clinic.health.", "redacted_target": "Email receipt to [EMAIL].", "source": "seed"}
+{"raw_input": "name Chen Wei email dev+test@mail.co card 7338 4842 1993 3083 phone (016) 571-2082", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "Reached out to single-name Zephyr at +44 20 0049 9154 about the 4540193802620672 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Email receipt to support@shopnow.net.", "redacted_target": "Email receipt to [EMAIL].", "source": "seed"}
+{"raw_input": "guest O'Brien, phone +44 20 1459 3327, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "guest Amara Diallo, phone 822-587-1397, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Hi, I am Chen Wei. Charge 8679.0874.0640.3910 and reach me at devon.lee@workstation.io.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "name Priya Nair email support@shopnow.net card 6618.2512.8682.3004 phone 868.633.7524", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "Hi, I am Ravi Patel. Charge 9033-1190 7903 0673 and reach me at bob.smith@corp.com.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Ship to 5 Chemin des Fleurs, Geneva and call 624.628.7334 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Hi, I am Amara Diallo. Charge 6882634351751830 and reach me at bob.smith@corp.com.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Ship to 742 Evergreen Terrace, Springfield and call (587) 717-5355 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Hi, I am single-name Zephyr. Charge 2176591803397401 and reach me at user123@gmail.com.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Refund card 5819 9560 4661 8398 belonging to Alice Smith.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "guest Nkechi Obi, phone (575) 692-4593, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "guest Priya Nair, phone 2909656101, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Reached out to Chen Wei at +44 20 3622 6609 about the 1401.0512.3828.2586 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "guest Alice Smith, phone 6969155792, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Email receipt to contact@acme.org.", "redacted_target": "Email receipt to [EMAIL].", "source": "seed"}
+{"raw_input": "Hi, I am Sunny Rae. Charge 3688-7676-7721-9034 and reach me at devon.lee@workstation.io.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Ship to 3 Via Roma, Milan and call 395-962-9233 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "guest Lars Eriksen, phone 545-892-9750, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Reached out to Alice Smith at 643.611.0371 about the 2770-6324-2415-4152 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Ship to 742 Evergreen Terrace, Springfield and call 827-109-1043 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "guest Lars Eriksen, phone (569) 146-3031, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Reached out to Ingrid Johansson at (105) 648-1491 about the 0421020275884252 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Ship to 5 Chemin des Fleurs, Geneva and call +44 20 0534 9493 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "My VISA is 2060.3850.5064.1383.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "guest Devon Lee, phone +44 20 5680 4420, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Refund card 2100 3236 5199 4101 belonging to Chen Wei.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Reached out to Alice Smith at 870.146.2638 about the 6253.2447.2099.9347 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "guest Sofia Rossi, phone 859-321-3348, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "name Ingrid Johansson email a.kwarteng@clinic.health card 2525-0029-2185-1569 phone +44 20 5452 2675", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "My VISA is 2644-2209 6902 9593.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Hi, I am Anne-Marie Sutton. Charge 3154.1006.7626.7658 and reach me at a.kwarteng@clinic.health.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Refund card 2621-8159-9706-2962 belonging to Elena Rostova.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Hi, I am Priya Nair. Charge 8720506149731032 and reach me at r.patel@guest.net.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "name Priya Nair email mvela@x.org card 2704.7743.4902.1158 phone 938.068.6879", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "Ship to 3 Via Roma, Milan and call (632) 945-1168 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Ship to Kurfuerstendamm 21, Berlin and call 856.467.9970 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "guest Hiroshi Tanaka, phone (324) 754-6913, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "guest Sunny Rae, phone 070-534-5786, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "My VISA is 9727-9855 2414 0602.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Ship to Kurfuerstendamm 21, Berlin and call 6609935387 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "My VISA is 6846.0223.5697.2521.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Refund card 6666-7600-8350-5830 belonging to Hiroshi Tanaka.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Hi, I am Nkechi Obi. Charge 7898 5625 7532 6033 and reach me at dev+test@mail.co.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Reached out to Lena Weber at 119.721.8114 about the 3483-5642-0873-7530 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Ship to 1600 Pine Hollow Rd, Austin and call 9415521667 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Reached out to Ivan Petrov at +44 20 7716 7014 about the 1202 1697 9729 6590 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "name Lars Eriksen email x.y@z.co card 9163 7562 8900 2877 phone (175) 354-0838", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "My VISA is 7971-7751-7016-6088.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Reached out to Kwame Mensah at (272) 614-9331 about the 9975-7113-0554-8851 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Reached out to Lena Weber at 7829221699 about the 1609-1779 8270 8086 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "guest Ingrid Johansson, phone +44 20 9452 2885, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "My VISA is 0666-5800 4397 3598.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "guest Anne-Marie Sutton, phone +44 20 9851 5832, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "guest Amara Diallo, phone 7399305616, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Hi, I am Lars Eriksen. Charge 8877 0435 8112 8801 and reach me at mvela@x.org.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Refund card 2481-9346 6766 5061 belonging to Elena Rostova.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Ship to 3 Via Roma, Milan and call 100.996.8814 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "My VISA is 2223-9431-2908-7814.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "My VISA is 7594.9299.5562.0533.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Reached out to Lars Eriksen at 503.731.4530 about the 1658.0392.8272.2992 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "guest Sunny Rae, phone 463-865-5779, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Reached out to Fatima Al-Sayed at 392.603.0299 about the 1843.2225.9136.5177 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Reached out to Ingrid Johansson at 908-811-7298 about the 1366-2103 8862 9127 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "guest single-name Zephyr, phone 6887258874, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "guest Hiroshi Tanaka, phone (961) 143-5190, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Refund card 7553 9423 7333 4333 belonging to Amara Diallo.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "name Ingrid Johansson email mvela@x.org card 7947-2846-3920-8678 phone 856-271-8750", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "guest Tom\u00e1s Rivera, phone 655.647.2929, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Ship to 5 Chemin des Fleurs, Geneva and call 890-612-0347 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "name Anne-Marie Sutton email mvela@x.org card 5884506159399824 phone 587.716.9472", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "guest single-name Zephyr, phone 876.220.2341, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "guest Devon Lee, phone (472) 282-0055, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Ship to Kurfuerstendamm 21, Berlin and call +44 20 3266 3416 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Ship to 88 Market St, San Francisco and call 208-021-4427 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Refund card 7356-4757 0512 0461 belonging to Hiroshi Tanaka.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "My VISA is 8376-4520-8814-7435.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Hi, I am Marcus Vance. Charge 7925-1327-1950-0528 and reach me at r.patel@guest.net.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Ship to 12 Rue de Rivoli, Paris and call (827) 448-5708 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Hi, I am Ingrid Johansson. Charge 9351-8638-7829-4565 and reach me at mvela@x.org.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Hi, I am Tom\u00e1s Rivera. Charge 7899405391037170 and reach me at bob.smith@corp.com.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "name Amara Diallo email mvela@x.org card 5665-9398-3684-5776 phone 049.082.4043", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "Hi, I am Anne-Marie Sutton. Charge 8899210752245933 and reach me at x.y@z.co.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "My VISA is 6591166553559042.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Hi, I am O'Brien. Charge 2405147705383388 and reach me at r.patel@guest.net.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Ship to 88 Market St, San Francisco and call 798-123-8780 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "guest Ivan Petrov, phone 305.172.8975, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Reached out to Sunny Rae at +44 20 7366 0965 about the 2330604633312797 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Hi, I am Fatima Al-Sayed. Charge 9222-2064 4742 1230 and reach me at mvela@x.org.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Reached out to Ivan Petrov at 099.451.0162 about the 1990 3849 8302 2050 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Refund card 1794-6954 8995 2997 belonging to Tom\u00e1s Rivera.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "My VISA is 6055-8303-4414-4885.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Reached out to Marcus Vance at +44 20 5512 4056 about the 7278-5760 8495 8803 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Ship to 5 Chemin des Fleurs, Geneva and call +44 20 4249 3214 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Hi, I am Hiroshi Tanaka. Charge 7016 0166 2997 9545 and reach me at user123@gmail.com.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "My VISA is 9456 2557 7017 1577.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Ship to 3 Via Roma, Milan and call (583) 219-7199 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Email receipt to user123@gmail.com.", "redacted_target": "Email receipt to [EMAIL].", "source": "seed"}
+{"raw_input": "Ship to 3 Via Roma, Milan and call 149.673.9385 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Email receipt to dev+test@mail.co.", "redacted_target": "Email receipt to [EMAIL].", "source": "seed"}
+{"raw_input": "My VISA is 7410 1194 7072 0064.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Hi, I am Priya Nair. Charge 1985 5460 1585 1743 and reach me at support@shopnow.net.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Reached out to single-name Zephyr at 799-313-6565 about the 7903-2020-4179-2911 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "name Lena Weber email user123@gmail.com card 9251 1426 2582 7390 phone 196-207-1002", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "guest Sunny Rae, phone +44 20 6083 3181, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Reached out to single-name Zephyr at +44 20 9701 0822 about the 4031277220054364 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Refund card 9956-3531-5313-6363 belonging to O'Brien.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "My VISA is 7406-3356-9392-9060.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Ship to 88 Market St, San Francisco and call (281) 832-5381 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "My VISA is 4864015577881788.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Refund card 1272380468275670 belonging to Fatima Al-Sayed.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Reached out to Nkechi Obi at 422.223.1059 about the 2424-3754 0254 7292 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Ship to 12 Rue de Rivoli, Paris and call +44 20 7520 8854 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "My VISA is 9980.5626.5650.4554.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "My VISA is 2447146273014719.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "name Nkechi Obi email mvela@x.org card 2798 5240 1322 3423 phone 161-107-6031", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "Reached out to Devon Lee at +44 20 5528 9389 about the 0140-1193 9325 0124 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "name Nkechi Obi email x.y@z.co card 0157 1647 9473 8646 phone 175-207-1678", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "Email receipt to bob.smith@corp.com.", "redacted_target": "Email receipt to [EMAIL].", "source": "seed"}
+{"raw_input": "Refund card 7320-1017 0269 5249 belonging to Anne-Marie Sutton.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "My VISA is 9114152085076986.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Refund card 5785-2945-6371-8344 belonging to Ravi Patel.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "Reached out to Amara Diallo at +44 20 9416 5162 about the 6032420448207001 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "My VISA is 5604.1776.5612.4815.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Ship to 88 Market St, San Francisco and call 316-526-6930 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Refund card 4206.9694.2152.9108 belonging to Chen Wei.", "redacted_target": "Refund card [CREDIT_CARD] belonging to [NAME].", "source": "seed"}
+{"raw_input": "My VISA is 4362-6204-4397-3597.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "Reached out to Anne-Marie Sutton at +44 20 4228 4993 about the 7617 0758 7771 2151 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "guest Elena Rostova, phone 490.509.7592, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "Ship to 88 Market St, San Francisco and call 2147649251 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Reached out to Chen Wei at (327) 881-4761 about the 7499.6165.9266.1085 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "Hi, I am Elena Rostova. Charge 4597-7945 2321 9416 and reach me at bob.smith@corp.com.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "Reached out to Sunny Rae at 407-678-9973 about the 7933-4960 5016 6799 charge.", "redacted_target": "Reached out to [NAME] at [PHONE] about the [CREDIT_CARD] charge.", "source": "seed"}
+{"raw_input": "guest Tom\u00e1s Rivera, phone (738) 395-9724, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "name Sunny Rae email devon.lee@workstation.io card 9341 7223 2971 6743 phone 800-545-2280", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "guest Devon Lee, phone 711.991.8081, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "My VISA is 4787125521376037.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "My VISA is 6678.5072.0811.5562.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "name Sofia Rossi email user123@gmail.com card 4892-6738-9975-6341 phone +44 20 8562 8843", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "name Nkechi Obi email dev+test@mail.co card 9268-3158-9357-1266 phone (106) 273-7158", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "Ship to Kurfuerstendamm 21, Berlin and call +44 20 0285 1961 on arrival.", "redacted_target": "Ship to [ADDRESS] and call [PHONE] on arrival.", "source": "seed"}
+{"raw_input": "Hi, I am Lars Eriksen. Charge 1545 4470 2296 0443 and reach me at devon.lee@workstation.io.", "redacted_target": "Hi, I am [NAME]. Charge [CREDIT_CARD] and reach me at [EMAIL].", "source": "seed"}
+{"raw_input": "name Priya Nair email support@shopnow.net card 9228777251996636 phone 807-412-0948", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
+{"raw_input": "My VISA is 9098.3780.1820.4339.", "redacted_target": "My VISA is [CREDIT_CARD].", "source": "seed"}
+{"raw_input": "guest Alice Smith, phone 095.200.4615, room 12", "redacted_target": "guest [NAME], phone [PHONE], room 12", "source": "seed"}
+{"raw_input": "name Anne-Marie Sutton email bob.smith@corp.com card 1033-9937 8861 4057 phone 617-063-0489", "redacted_target": "name [NAME] email [EMAIL] card [CREDIT_CARD] phone [PHONE]", "source": "seed"}
