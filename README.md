@@ -65,6 +65,7 @@ phase-2-train/           flan-t5-small fine-tune with recall/fidelity metrics
 phase-3-evaluate/        acceptance gate: held-out split + frozen adversarial set
 phase-4-export/          ONNX export + INT8 quantization into web/model/
 web/                     browser client (index.html + generated model in web/model/)
+examples/               minimal embed example for your own page
 eval/                    frozen hand-written adversarial set
 test/                    node smoke, parity, and headless browser tests
 docs/                    historical build plan and measured results
@@ -94,6 +95,16 @@ make serve     # http://127.0.0.1:8123
 ```
 
 The page needs HTTP; `file://` cannot fetch the model files.
+
+## Use it in your own page
+
+A minimal integration — model load plus one redaction call — lives in
+[examples/minimal.html](examples/minimal.html). It needs `web/model/` from
+phase 4, served over HTTP.
+
+For real use, also copy the verification guard and the chunking from
+[web/index.html](web/index.html). The guard flags outputs where the model
+altered text outside the redaction tags.
 
 ## Rebuild from scratch
 

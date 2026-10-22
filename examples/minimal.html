@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>tinypii — minimal integration example</title>
+</head>
+<body>
+  <!-- Minimal integration: model load + one redaction call.
+       The full client (verification guard, chunking, streaming, WebGPU
+       fallback UI) lives in web/index.html — copy those parts for real use.
+       Serve the repo root over HTTP and open
+       http://127.0.0.1:8123/examples/minimal.html -->
+
+  <h2>tinypii — minimal integration</h2>
+  <textarea id="input" rows="4" cols="70">Hi, I am Marcus Vance. Charge 4532-1182-9920-1092 and reach me at contact@acme.org.</textarea><br>
+  <button id="run" disabled>Loading…</button>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import { AutoTokenizer, AutoModelForSeq2SeqLM, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.6';
+    env.allowLocalModels = true;
+
+    // ../web/model is produced by phase 4 (`make export`).
+    // To embed in your own site, copy that folder next to your page
+    // and change the path.
+    const path = '../web/model';
+    const device = navigator.gpu ? 'webgpu' : 'wasm';
+
+    const tokenizer = await AutoTokenizer.from_pretrained(path);
+    const model = await AutoModelForSeq2SeqLM.from_pretrained(path, { dtype: 'q8', device });
+
+    const input = document.getElementById('input');
+    const button = document.getElementById('run');
+    const output = document.getElementById('output');
+    button.disabled = false;
+    button.textContent = 'Redact';
+
+    button.onclick = async () => {
+      const enc = await tokenizer('redact: ' + input.value, { truncation: true, max_length: 256 });
+      const out = await model.generate({ ...enc, max_new_tokens: 128 });
+      output.textContent = tokenizer.decode(out[0], { skip_special_tokens: true });
+    };
+  </script>
+</body>
+</html>
