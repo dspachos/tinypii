@@ -36,7 +36,7 @@ redaction. This is a probabilistic system, not a compliance guarantee (see
 
 ## Results
 
-All numbers measured, none estimated. Full details in [RESULTS.md](RESULTS.md).
+All numbers measured, none estimated. Full details in [docs/results.md](docs/results.md).
 
 | Metric | Python fp32 (n=877) | q8 ONNX Node (n=200) | Browser q8 |
 |---|---|---|---|
@@ -57,88 +57,61 @@ Footprint and speed:
 Training data: 8,647 teacher-LLM pairs (gemini-2.5-flash, generated through a QA gate) plus
 200 template-based seed pairs.
 
+## Repository layout
+
+```
+phase-1-generate-data/   training pairs from templates or a teacher LLM, QA-gated
+phase-2-train/           flan-t5-small fine-tune with recall/fidelity metrics
+phase-3-evaluate/        acceptance gate: held-out split + frozen adversarial set
+phase-4-export/          ONNX export + INT8 quantization into web/model/
+web/                     browser client (index.html + generated model in web/model/)
+eval/                    frozen hand-written adversarial set
+test/                    node smoke, parity, and headless browser tests
+docs/                    historical build plan and measured results
+```
+
+`data/` and `models/` are generated outputs, gitignored. Each phase folder has its own README
+with prerequisites, commands, and cost notes.
+
+## Pipeline at a glance
+
+| Phase | Folder | Make target | Output |
+|---|---|---|---|
+| 1 · data | `phase-1-generate-data/` | `make seed`, `make data` | `data/*.jsonl` |
+| 2 · train | `phase-2-train/` | `make smoke`, `make train` | `models/flan-t5-small-pii/` |
+| 3 · evaluate | `phase-3-evaluate/` | `make evaluate` | go/no-go verdict |
+| 4 · export | `phase-4-export/` | `make onnx`, `make export` | `web/model/` |
+| serve | `web/` | `make serve` | http://127.0.0.1:8123 |
+
 ## Quickstart
 
-You need the exported model directory, which is not committed (see
-[Rebuild from scratch](#rebuild-from-scratch)). With `web_llm_model/` present:
+The repo does not ship model weights or training data — both are regenerable through the
+pipeline. After phases 1–4, or with your own `web/model/` in place:
 
 ```bash
-python3 -m http.server 8123
-# open http://127.0.0.1:8123
+make install   # once: both python virtualenvs + node dev dependencies
+make serve     # http://127.0.0.1:8123
 ```
 
 The page needs HTTP; `file://` cannot fetch the model files.
 
-## Repo layout
-
-| Path | Role |
-|---|---|
-| `generate_data.py` | Teacher-LLM pair generation with programmatic QA gate |
-| `train_seq2seq.py` | Fine-tune flan-t5-small with recall/fidelity metrics |
-| `evaluate.py` | Acceptance-gate evaluation on held-out and adversarial sets |
-| `export.py` | ONNX export + INT8 quantization into `web_llm_model/` |
-| `index.html` | Browser client: streaming output, verification guard, chunking |
-| `eval/adversarial.json` | Frozen hand-written edge-case set |
-| `test/smoke.mjs` | Node smoke test for the ONNX model |
-| `test/parity.mjs` | Checks that Python and Node ONNX outputs agree |
-| `test/browser-test.mjs` | Headless Chromium run of `index.html` |
-
-Data (`data/`), model checkpoints, and ONNX artifacts are gitignored — they are regenerable.
-
 ## Rebuild from scratch
 
-### 1. Data
-
 ```bash
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-
-# free template-based seed pairs (smoke-test the training loop first)
-.venv/bin/python generate_data.py seed --target 200
-
-# teacher-generated pairs; costs API tokens
-.venv/bin/python generate_data.py teacher --target 8647
-# weak-spot regeneration mode:
-.venv/bin/python generate_data.py teacher --focus
+make install
+make seed          # free template pairs; enough for `make smoke`
+make data          # teacher-LLM pairs — needs .env.local, costs API tokens
+make smoke         # validates the training loop in minutes
+make train         # full fine-tune
+make evaluate      # acceptance gate
+make onnx          # fp32 ONNX export (runs in .venv-export)
+make export        # INT8 quantization -> web/model/
+make serve
 ```
 
-Every pair passes a QA gate: tags stripped from the target must reconstruct the input
-exactly outside tag spans, and the tag inventory must match validators run on the raw input
-(validators are training-time tooling — they never ship). Failed pairs are logged and
-rejected.
+Node/browser tests: `make test` and `make test-browser` (needs `make serve` running).
 
-### 2. Train
-
-```bash
-.venv/bin/python train_seq2seq.py --smoke        # seed data, minutes
-.venv/bin/python train_seq2seq.py --epochs 5 --batch 8 --grad-accum 2
-```
-
-### 3. Evaluate the acceptance gate
-
-```bash
-.venv/bin/python evaluate.py            # optional: --beams 5 for beam search
-```
-
-Gate: tag recall ≥ 0.98 and copy fidelity ≥ 0.99 on the held-out split and the adversarial
-set.
-
-### 4. Export and quantize
-
-```bash
-python3.13 -m venv .venv-export
-.venv-export/bin/pip install 'torch==2.7.1' 'transformers==4.51.3' 'optimum[exporters]<2' 'onnx<1.18' 'onnxruntime<1.22'
-.venv-export/bin/optimum-cli export onnx --model ./saved_generative_pii_model --task text2text-generation-with-past ./onnx_generative
-.venv-export/bin/python export.py
-```
-
-Then serve as in the quickstart.
-
-### Export trap
-
-The fine-tune (transformers 5.x) leaves `shared` and `lm_head` weights diverged while
-`config.tie_word_embeddings` still says `true`. Exporting with that config silently re-ties
-them and the decoder emits garbage. Fix: set `tie_word_embeddings: false` in the saved
-model's config before the ONNX export.
+Details, prerequisites, and expected outputs per phase: the README in each phase folder.
 
 ## Limitations
 
@@ -155,3 +128,7 @@ gate, accepted with a documented tail):
 
 Non-goals: compliance certification, a regex fallback in the browser, and PII categories
 beyond the five tags.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
