@@ -44,7 +44,7 @@ const sample = rows.filter((_, i) => i % 20 === 0).slice(0, 200);
 const adversarial = JSON.parse(fs.readFileSync('../eval/adversarial.json', 'utf-8'));
 
 console.log(`loading q8 model...`);
-const gen = await pipeline('text2text-generation', '../web_llm_model', { dtype: 'q8', device: 'cpu' });
+const gen = await pipeline('text2text-generation', '../web/model', { dtype: 'q8', device: 'cpu' });
 
 async function run(rows) {
   const pairs = [];

@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Phase 2 — fine-tune flan-t5-small for PII redaction. See PLAN.md §4 Phase 2.
+"""Phase 2 — fine-tune flan-t5-small for PII redaction. See docs/plan.md §4 Phase 2.
+
+Run from the repo root. Full instructions: phase-2-train/README.md.
 
 Usage:
-    python train_seq2seq.py             # full run -> saved_generative_pii_model/
-    python train_seq2seq.py --smoke     # tiny run on seed data, validates the loop
+    python phase-2-train/finetune.py             # full run -> models/flan-t5-small-pii/
+    python phase-2-train/finetune.py --smoke     # tiny run on seed data, validates the loop
 
 The acceptance gate (tag recall >= 0.98, copy fidelity >= 0.99) is evaluated
 afterwards by evaluate.py on the held-out split and the adversarial set.
@@ -116,14 +118,14 @@ def main() -> None:
     ap.add_argument("--epochs", type=int, default=4)
     ap.add_argument("--batch", type=int, default=16)
     ap.add_argument("--grad-accum", type=int, default=1)
-    ap.add_argument("--output-dir", default="saved_generative_pii_model")
+    ap.add_argument("--output-dir", default="models/flan-t5-small-pii")
     args = ap.parse_args()
 
     set_seed(42)
     if args.smoke:
         rows = load_pairs(["data/seed.jsonl"])[:64]
         epochs, steps, log = 1, 8, 4
-        out_dir = "saved_smoke_model"
+        out_dir = "models/smoke"
     else:
         rows = load_pairs(["data/synthetic.jsonl", "data/seed.jsonl"])
         epochs, steps, log = args.epochs, -1, 25

@@ -1,6 +1,12 @@
 # Client-Side Pure-Neural PII Redaction — Build Plan
 
-Status: phases 1–4 complete — quality/footprint/limitations in RESULTS.md
+Status: phases 1–4 complete — quality/footprint/limitations in docs/results.md
+
+Note: this is the historical build plan. Script names below map to the current
+layout as `generate_data.py` → `phase-1-generate-data/generate.py`,
+`train_seq2seq.py` → `phase-2-train/finetune.py`, `evaluate.py` →
+`phase-3-evaluate/evaluate.py`, `export.py` → `phase-4-export/export.py`, and
+`index.html` → `web/index.html`.
 
 ## 1. Goal
 

@@ -1,0 +1,14 @@
+{
+  "name": "tinypii",
+  "private": true,
+  "type": "module",
+  "description": "Client-side pure-neural PII redaction — node/browser test harness",
+  "scripts": {
+    "test": "node test/smoke.mjs && node test/parity.mjs",
+    "test:browser": "node test/browser-test.mjs"
+  },
+  "devDependencies": {
+    "@huggingface/transformers": "^3.7.6",
+    "playwright": "^1.50.0"
+  }
+}

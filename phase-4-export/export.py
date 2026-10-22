@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Phase 3 — quantize the ONNX export to INT8 and assemble web_llm_model/.
+"""Phase 4 — quantize the ONNX export to INT8 and assemble web/model/.
 
-Run inside .venv-export (optimum 1.x + transformers 4.x stack):
-    .venv-export/bin/python export.py
+Run from the repo root, inside .venv-export (optimum 1.x + transformers 4.x
+stack — see phase-4-export/README.md):
+    .venv-export/bin/python phase-4-export/export.py
 
 Quantizes encoder_model and decoder_model_merged (the only two graphs
 Transformers.js v3 loads for text2text) and copies the tokenizer/config
@@ -14,8 +15,8 @@ from pathlib import Path
 from optimum.onnxruntime import ORTQuantizer
 from optimum.onnxruntime.configuration import AutoQuantizationConfig
 
-SRC = Path("onnx_generative")
-DST = Path("web_llm_model")
+SRC = Path("models/onnx")
+DST = Path("web/model")
 GRAPHS = ("encoder_model", "decoder_model_merged")
 
 # Dynamic INT8, QDQ format with per-channel weights, embeddings excluded —

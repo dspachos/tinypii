@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-"""Phase 1 — synthetic PII redaction pairs. See PLAN.md §4 Phase 1.
+"""Phase 1 — synthetic PII redaction pairs. See docs/plan.md §4 Phase 1.
+
+Run from the repo root. Full instructions: phase-1-generate-data/README.md.
 
 Modes:
-    python generate_data.py teacher --target 4000   # LLM pairs -> data/synthetic.jsonl
-    python generate_data.py seed                    # template pairs -> data/seed.jsonl
+    python phase-1-generate-data/generate.py teacher --target 4000
+    python phase-1-generate-data/generate.py seed
 
 Records: {"raw_input", "redacted_target", "source"}. The "redact: " task
 prefix is applied in Phase 2, not stored here.
 
-Credentials come from .env.local (AMAZEEAI_BASE_URL / AMAZEEAI_API_KEY).
+Credentials come from .env.local (OPENAI_API_ENDPOINT / OPENAI_KEY).
 
-The QA gate uses regex on purpose: PLAN.md's no-regex constraint covers the
+The QA gate uses regex on purpose: the no-regex constraint covers the
 deployed browser artifact, not training-data validation.
 """
 from __future__ import annotations
@@ -183,9 +185,9 @@ def make_client():
             if line and not line.startswith("#") and "=" in line:
                 k, v = line.split("=", 1)
                 env[k.strip()] = v.strip()
-    base, key = env.get("AMAZEEAI_BASE_URL"), env.get("AMAZEEAI_API_KEY")
+    base, key = env.get("OPENAI_API_ENDPOINT"), env.get("OPENAI_KEY")
     if not base or not key:
-        sys.exit(".env.local must define AMAZEEAI_BASE_URL and AMAZEEAI_API_KEY")
+        sys.exit(".env.local must define OPENAI_API_ENDPOINT and OPENAI_KEY")
     return instructor.from_openai(
         OpenAI(base_url=base, api_key=key), mode=instructor.Mode.JSON
     )

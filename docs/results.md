@@ -2,7 +2,8 @@
 
 All numbers measured, none estimated. Model: flan-t5-small fine-tuned for
 redaction (5 epochs, lr 3e-4, eff. batch 16, MPS) on 8,647 teacher-LLM pairs
-(gemini-2.5-flash via Amazee AI us1 LiteLLM, 4 generation rounds) + 200 seed
+(gemini-2.5-flash through an OpenAI-compatible endpoint, 4 generation
+rounds) + 200 seed
 pairs, all through the QA gate.
 
 ## Quality
@@ -49,14 +50,16 @@ Fix: set `tie_word_embeddings: false` in the saved model's config before
 ## Reproduce
 
 ```
-.venv/bin/python generate_data.py teacher --target N [--focus]
-.venv/bin/python train_seq2seq.py --epochs 5 --batch 8 --grad-accum 2
-.venv/bin/python evaluate.py            # acceptance gate
-python3.13 -m venv .venv-export && .venv-export/bin/pip install 'torch==2.7.1' 'transformers==4.51.3' 'optimum[exporters]<2' 'onnx<1.18' 'onnxruntime<1.22'
-.venv-export/bin/optimum-cli export onnx --model ./saved_generative_pii_model --task text2text-generation-with-past ./onnx_generative
-.venv-export/bin/python export.py       # quantize + assemble web_llm_model/
-python3 -m http.server 8123             # then open http://127.0.0.1:8123
+make install               # both python virtualenvs + node deps
+make seed && make data     # phase 1 (teacher mode needs .env.local, API cost)
+make train                 # phase 2
+make evaluate              # phase 3 (acceptance gate)
+make onnx && make export   # phase 4
+make serve                 # open http://127.0.0.1:8123
 ```
 
-Node/browser tests: `test/smoke.mjs`, `test/parity.mjs`, `test/browser-test.mjs`
-(run from a dir containing `node_modules/@huggingface/transformers`).
+Node/browser tests: `make test`, `make test-browser` (run `make serve` in
+another terminal first). Raw commands: `phase-1-generate-data/generate.py`,
+`phase-2-train/finetune.py`, `phase-3-evaluate/evaluate.py`,
+`phase-4-export/export.py`, `test/smoke.mjs`, `test/parity.mjs`,
+`test/browser-test.mjs`.

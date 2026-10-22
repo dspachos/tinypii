@@ -1,24 +1,30 @@
 #!/usr/bin/env python3
-"""Phase 2 acceptance gate. See PLAN.md §4 Phase 2 / §7.
+"""Phase 2 acceptance gate. See docs/plan.md §4 Phase 2 / §7.
 
 Evaluates the saved model on the held-out test split (rebuilt with the same
 seed as training) and the frozen adversarial set, then prints the go/no-go
 verdict: tag recall >= 0.98 AND copy fidelity >= 0.99 on both.
 
-Usage: python evaluate.py [--model saved_generative_pii_model]
+Run from the repo root. Full instructions: phase-3-evaluate/README.md.
+
+Usage: python phase-3-evaluate/evaluate.py [--model models/flan-t5-small-pii]
 """
 from __future__ import annotations
 
 import argparse
 import json
+import sys
+from pathlib import Path
 
 import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-from train_seq2seq import load_pairs, redaction_metrics
+# Shared metric code lives with the training script (phase 2).
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "phase-2-train"))
+from finetune import load_pairs, redaction_metrics  # noqa: E402
 
 # Outside the training distribution on purpose; excluded from the gate math,
-# reported separately. See PLAN.md Phase 1 notes.
+# reported separately. See docs/plan.md Phase 1 notes.
 # - UPS/[urgent]: semantically not PII but syntactically PII-shaped
 # - multi-line: T5 SentencePiece normalizes newlines to spaces; platform
 #   limitation, the browser client pre-flattens input
@@ -64,7 +70,7 @@ def evaluate_set(model, tokenizer, rows: list[dict], device: str, label: str, be
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", default="saved_generative_pii_model")
+    ap.add_argument("--model", default="models/flan-t5-small-pii")
     ap.add_argument("--beams", type=int, default=1)
     args = ap.parse_args()
 

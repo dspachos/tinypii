@@ -1,24 +1,25 @@
 # secrets — never commit
 .env.local
 .env.*
+!.env.example
 
 # python
 __pycache__/
 *.py[cod]
 .venv/
+.venv-export/
+
+# node
+node_modules/
 
 # generated data & model artifacts (large, regenerable)
 data/
-*.onnx
-onnx_generative/
-web_llm_model/
-saved_generative_pii_model/
-pure-llm-redactor/
+models/
+web/model/
+trainer_checkpoints/
+.nodetest/
+browser-test.png
 
 # os / editor
 .DS_Store
-trainer_checkpoints/
-.venv-export/
-.nodetest/
-onnx_quantized/
 .pi/

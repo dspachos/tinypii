@@ -13,7 +13,7 @@ const cases = [
 
 console.log('loading model (q8)...');
 const t0 = Date.now();
-const generator = await pipeline('text2text-generation', '../web_llm_model', {
+const generator = await pipeline('text2text-generation', '../web/model', {
   dtype: 'q8',
   device: 'cpu',
 });

@@ -40,7 +40,7 @@
   <p class="meta">
     Tags: [NAME] [CREDIT_CARD] [EMAIL] [PHONE] [ADDRESS]. Multi-line input is
     flattened (tokenizer limitation). Long text is chunked by sentence.
-    Serve with: <code>python3 -m http.server</code>
+    Serve with: <code>make serve</code>
   </p>
 
   <script type="module">
@@ -88,8 +88,8 @@
     $('device').textContent = device.toUpperCase();
 
     try {
-      tokenizer = await AutoTokenizer.from_pretrained('./web_llm_model');
-      model = await AutoModelForSeq2SeqLM.from_pretrained('./web_llm_model', {
+      tokenizer = await AutoTokenizer.from_pretrained('./model');
+      model = await AutoModelForSeq2SeqLM.from_pretrained('./model', {
         dtype: 'q8',
         device,
         progress_callback: p => {
