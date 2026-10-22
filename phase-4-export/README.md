@@ -18,13 +18,20 @@ make export    # step 2: INT8 quantize + assemble -> web/model (~93 MB total)
 
 Then `make serve` and open http://127.0.0.1:8123.
 
-## The tie_word_embeddings trap
+## The two export traps
 
-The phase 2 checkpoint is saved with `tie_word_embeddings: false` — the
-fine-tune leaves `shared` and `lm_head` diverged. If a checkpoint reaches
-this phase with the flag still `true`, optimum silently re-ties the weights
-and the exported decoder emits garbage ("debit debit…"). If you export a
-re-tied checkpoint manually, you lose the trained `lm_head` the same way.
+1. `tie_word_embeddings`. The phase 2 checkpoint saves it as `false` — the
+   fine-tune leaves `shared` and `lm_head` diverged. If a checkpoint reaches
+   this phase with the flag still `true`, optimum silently re-ties the
+   weights and the exported decoder emits garbage. If you export a re-tied
+   checkpoint manually, you lose the trained `lm_head` the same way.
+
+2. Tokenizer files. Transformers.js v3 needs tokenizer files written by
+   the transformers-4 stack. Files written by transformers 5.x decode
+   without spaces in the browser (`paidwith[CREDIT_CARD]`) while Node still
+   looks fine, so only a browser test catches it. `export.py` regenerates
+   them from `google/flan-t5-small` inside `.venv-export` (the fine-tune
+   does not change the vocab).
 
 ## Output
 
