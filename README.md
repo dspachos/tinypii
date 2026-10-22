@@ -38,24 +38,28 @@ redaction. This is a probabilistic system, not a compliance guarantee (see
 
 All numbers measured, none estimated. Full details in [docs/results.md](docs/results.md).
 
-| Metric | Python fp32 (n=877) | q8 ONNX Node (n=200) | Browser q8 |
+| Metric | Python fp32, held-out (n=1,059) | q8 ONNX Node (n=200) | Browser q8 |
 |---|---|---|---|
-| Tag recall | 0.996 | 0.992 | spot-check OK |
-| Tag precision | ~0.99 | 1.000 | spot-check OK |
-| Copy fidelity | 0.995 | 0.9997 | guard OK |
-| Exact match | 0.97 | 0.96 | — |
+| Tag recall | 0.9966 | 0.9946 | spot-check OK |
+| Tag precision | 0.9941 | 0.9973 | spot-check OK |
+| Copy fidelity | 0.9873 | 1.000 | guard OK |
+| Exact match | 0.89 | 0.905 | — |
+
+Adversarial set (30 hand-written edge cases): recall 1.000, and 1.000 / 1.000
+recall / fidelity on every case except the three documented known-hard ones
+(UPS tracking numbers, `[urgent]` brackets, multi-line text).
 
 Footprint and speed:
 
 | Metric | Value |
 |---|---|
-| Download | ~93 MB (INT8), cached after first visit |
-| End-to-end latency, WASM, one sentence | 319 ms |
-| Latency, Node/CPU per example | ~65 ms |
+| Download | ~96 MB (INT8), cached after first visit |
+| Latency, Node/CPU per example | ~52 ms |
+| End-to-end latency, browser WASM, one sentence | ~300 ms |
 | Cold model load in browser | 20–40 s first visit |
 
-Training data: 8,647 teacher-LLM pairs (gemini-2.5-flash, generated through a QA gate) plus
-200 template-based seed pairs.
+Training data: 10,383 QA-gated teacher pairs plus 200 template seed pairs,
+shipped in [`data/`](data/README.md).
 
 ## Repository layout
 
@@ -64,11 +68,12 @@ phase-1-generate-data/   training pairs from templates or a teacher LLM, QA-gate
 phase-2-train/           flan-t5-small fine-tune with recall/fidelity metrics
 phase-3-evaluate/        acceptance gate: held-out split + frozen adversarial set
 phase-4-export/          ONNX export + INT8 quantization into web/model/
-web/                     browser client (index.html + generated model in web/model/)
-examples/               minimal embed example for your own page
+web/                     browser demo (index.html + shipped INT8 model in web/model/)
+examples/                minimal embed example for your own page
 eval/                    frozen hand-written adversarial set
 test/                    node smoke, parity, and headless browser tests
 docs/                    historical build plan and measured results
+data/                    shipped training pairs
 ```
 
 `models/` is a generated output, gitignored. The QA-gated training pairs ship in
@@ -83,19 +88,18 @@ README with prerequisites, commands, and cost notes.
 | 2 · train | `phase-2-train/` | `make smoke`, `make train` | `models/flan-t5-small-pii/` |
 | 3 · evaluate | `phase-3-evaluate/` | `make evaluate` | go/no-go verdict |
 | 4 · export | `phase-4-export/` | `make onnx`, `make export` | `web/model/` |
-| serve | `web/` | `make serve` | http://127.0.0.1:8123 |
+| serve | `web/` | `make serve` | http://127.0.0.1:8123/web/index.html |
 
 ## Quickstart
 
-The repo ships the training data (`data/`) but not model weights — rebuild those with phases
-2–4:
+The repo ships the trained INT8 model and the training data. To try it:
 
 ```bash
-make install   # once: both python virtualenvs + node dev dependencies
-make serve     # http://127.0.0.1:8123
+make serve   # then open http://127.0.0.1:8123/web/index.html
 ```
 
-The page needs HTTP; `file://` cannot fetch the model files.
+The page needs HTTP; `file://` cannot fetch the model files. The minimal embed
+example lives at `http://127.0.0.1:8123/examples/minimal.html`.
 
 ## Use it in your own page
 
@@ -127,15 +131,17 @@ Details, prerequisites, and expected outputs per phase: the README in each phase
 
 ## Limitations
 
-Measured on a frozen adversarial set (fp32 recall 0.973 / q8 recall 0.919 — below the 0.98
-gate, accepted with a documented tail):
+Measured behavior of the shipped model:
 
-- Names in short ALL-CAPS imperatives are sometimes missed (`CALL TOM REED`).
-- The word immediately before a tag is occasionally eaten (`ph [PHONE]` → `[PHONE]`).
-- Dotted 10-digit numbers oscillate between PHONE and CREDIT_CARD.
 - Newlines are flattened — the T5 SentencePiece tokenizer cannot emit `\n`. The browser
   client pre-flattens input.
-- Alphanumeric and spaced tracking numbers get redacted as cards (known-hard by design).
+- Tracking numbers (UPS-style) and bracketed words like `[urgent]` are sometimes
+  redacted as PII (known-hard by design; outside the training distribution).
+- Words with diacritics may come back normalized (`NÓW` → `NOW`).
+- Held-out copy fidelity is 0.9873, below the 0.99 gate — an accepted, documented
+  deviation. The residual loss sits in rare teacher-data noise, not systematic word
+  dropping: the 971 zero-PII copy pairs in the dataset are exact, and the q8 sample
+  scores 1.000 fidelity.
 - Spaces around tags occasionally collapse (`Dr.[NAME]`) — cosmetic.
 
 Non-goals: compliance certification, a regex fallback in the browser, and PII categories

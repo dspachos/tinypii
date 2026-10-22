@@ -6,7 +6,7 @@ VENV_EXPORT := .venv-export
 PY_EXPORT   := $(VENV_EXPORT)/bin/python
 MODEL_DIR   := models/flan-t5-small-pii
 
-.PHONY: help install seed data smoke train evaluate onnx export serve test test-browser clean
+.PHONY: help install seed data filter filter-model smoke train evaluate onnx export serve test test-browser clean
 
 help: ## list targets
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z0-9_-]+:.*##/ {printf "  %-14s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -18,6 +18,12 @@ install: ## create both python virtualenvs + node dev dependencies
 
 seed: ## phase 1 — free template pairs -> data/seed.jsonl
 	$(PY) phase-1-generate-data/generate.py seed
+
+filter: ## phase 1 — re-run the QA gate on the existing dataset
+	$(PY) phase-1-generate-data/generate.py filter
+
+filter-model: ## phase 1 — drop leaky golds found by the trained model
+	$(PY) phase-1-generate-data/generate.py filter --model $(MODEL_DIR)
 
 data: ## phase 1 — teacher-LLM pairs -> data/synthetic.jsonl (needs .env.local, API cost)
 	$(PY) phase-1-generate-data/generate.py teacher --target 8647
@@ -37,8 +43,8 @@ onnx: ## phase 4 — fp32 ONNX export -> models/onnx (runs in .venv-export)
 export: ## phase 4 — INT8 quantize + assemble -> web/model (runs in .venv-export)
 	$(PY_EXPORT) phase-4-export/export.py
 
-serve: ## serve the browser client at http://127.0.0.1:8123
-	python3 -m http.server 8123 --directory web
+serve: ## serve the demo + example at http://127.0.0.1:8123 (demo: /web/index.html)
+	python3 -m http.server 8123
 
 test: ## node smoke + parity tests (needs web/model and node_modules)
 	node test/smoke.mjs && node test/parity.mjs

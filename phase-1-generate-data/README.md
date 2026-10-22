@@ -46,14 +46,29 @@ A pair is rejected unless all of these hold:
 - The tag-stripped target reconstructs the input at word level, in order.
 - The tag inventory matches the PII actually present in the input.
 - No email or digit run is left unredacted in the target.
+- No name left unredacted after an honorific (`Ms. D'Angelo`).
 - The input is not a near-duplicate of one already accepted.
 
 Rejections are counted by reason and printed at the end. Regex is allowed
 here on purpose: the no-regex constraint covers only the deployed browser
 artifact.
 
+## Filter an existing file
+
+Two cleanup passes run over a finished dataset:
+
+| Command | What it drops |
+|---|---|
+| `make filter` | Pairs that fail the current QA gate, incl. names after honorifics |
+| `make filter-model` | Pairs whose target leaves PII plain that a trained model redacts (leaky golds) |
+
+Leaky golds teach contradictory behavior: the model gets punished for
+tagging a name the teacher left unredacted, which drags the copy-fidelity
+metric even when the model is right.
+
 ## Cost
 
-`teacher` mode spends API tokens. With batches of 8, the published 8,647
-pairs took four generation runs (three broad, one `--focus` round on weak
-spots).
+`teacher` mode spends API tokens. With batches of 8, the published dataset
+(10,383 pairs after filtering) took one broad gemini-2.5-flash run, one
+broad gemini-3.5-flash-lite run, and one focused weak-spot round. At flash
+tier the total API cost stayed under $15.

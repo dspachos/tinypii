@@ -1,7 +1,12 @@
 import { pipeline, env } from '@huggingface/transformers';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
 
 env.allowLocalModels = true;
+
+// anchor to this file so the test runs from any working directory
+const MODEL_PATH = new URL('../web/model', import.meta.url).pathname;
+const here = p => fileURLToPath(new URL(p, import.meta.url));
 
 const TAG_RE = /\[(NAME|CREDIT_CARD|EMAIL|PHONE|ADDRESS)\]/g;
 const TAGS = ['NAME', 'CREDIT_CARD', 'EMAIL', 'PHONE', 'ADDRESS'];
@@ -36,15 +41,15 @@ function metrics(pairs) {
   };
 }
 
-const rows = fs.readFileSync('../data/synthetic.jsonl', 'utf-8').trim().split('\n')
+const rows = fs.readFileSync(here('../data/synthetic.jsonl'), 'utf-8').trim().split('\n')
   .map(l => JSON.parse(l));
 // same 90/10 split as training: datasets shuffles with seed 42 — approximate
 // by taking every 10th row for an independent sample instead (n=200).
 const sample = rows.filter((_, i) => i % 20 === 0).slice(0, 200);
-const adversarial = JSON.parse(fs.readFileSync('../eval/adversarial.json', 'utf-8'));
+const adversarial = JSON.parse(fs.readFileSync(here('../eval/adversarial.json'), 'utf-8'));
 
 console.log(`loading q8 model...`);
-const gen = await pipeline('text2text-generation', '../web/model', { dtype: 'q8', device: 'cpu' });
+const gen = await pipeline('text2text-generation', MODEL_PATH, { dtype: 'q8', device: 'cpu' });
 
 async function run(rows) {
   const pairs = [];

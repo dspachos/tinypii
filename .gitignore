@@ -18,7 +18,6 @@ data/*
 !data/seed.jsonl
 !data/synthetic.jsonl
 models/
-web/model/
 trainer_checkpoints/
 .nodetest/
 browser-test.png

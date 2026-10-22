@@ -1,5 +1,43 @@
 # RESULTS — Client-Side Pure-Neural PII Redactor
 
+## Shipped model (rebuild, 2026-10-22)
+
+Model: flan-t5-small, 5 epochs, lr 3e-4, effective batch 16, MPS, on the
+shipped dataset: 10,383 teacher pairs (gemini-2.5-flash for the first
+1,856; gemini-3.5-flash-lite for the rest, including one focused weak-spot
+round) + 200 seed pairs. Two filter passes cleaned the teacher data: the
+regex QA gate (186 pairs with names left after honorifics) and a
+model-assisted scan (86 pairs whose gold left PII plain).
+
+| Metric | fp32 held-out (n=1,059) | q8 ONNX Node (n=200) |
+|---|---|---|
+| tag recall | 0.9966 | 0.9946 |
+| tag precision | 0.9941 | 0.9973 |
+| copy fidelity | 0.9873 | 1.000 |
+| exact match | 0.8905 | 0.905 |
+
+Adversarial set (30 hand-written edges): fp32 recall 1.000, precision 0.974,
+fidelity 0.942 — every failure is one of the three known-hard cases
+(UPS tracking, `[urgent]`, multi-line). Excluding those: 1.000 / 1.000.
+
+Acceptance gate: recall passes everywhere; held-out fidelity 0.9873 misses
+the 0.99 gate by 0.0027 — accepted with this documented deviation. The
+residual loss sits in rare teacher-data noise (diacritics, one corrupted
+gold), not systematic word dropping: the 971 zero-PII copy pairs are exact
+and training fidelity plateaued at epoch 2.
+
+Footprint: encoder 35.8 MB + decoder 59.5 MB (INT8) + tokenizer ≈ 96 MB.
+Node/CPU: ~52 ms per example (n=230, 12 s total).
+
+Fixes vs the first build attempts, for the record: teacher golds that left
+names unredacted taught contradictory behavior and capped fidelity at
+~0.967; the honorific gate check plus the model-assisted filter recovered
++0.020 fidelity.
+
+---
+
+## First build (historical)
+
 All numbers measured, none estimated. Model: flan-t5-small fine-tuned for
 redaction (5 epochs, lr 3e-4, eff. batch 16, MPS) on 8,647 teacher-LLM pairs
 (gemini-2.5-flash through an OpenAI-compatible endpoint, 4 generation

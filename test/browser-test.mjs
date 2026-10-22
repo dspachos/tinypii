@@ -6,7 +6,7 @@ const errors = [];
 page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 page.on('pageerror', e => errors.push(String(e)));
 
-await page.goto('http://127.0.0.1:8123/index.html', { waitUntil: 'domcontentloaded' });
+await page.goto('http://127.0.0.1:8123/web/index.html', { waitUntil: 'domcontentloaded' });
 console.log('waiting for model load...');
 await page.waitForFunction(() => !document.getElementById('runBtn').disabled, null, { timeout: 180000 });
 console.log('model loaded, running redaction...');

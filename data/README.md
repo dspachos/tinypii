@@ -5,7 +5,7 @@ files as-is, so retraining needs no API access.
 
 | File | Pairs | Source |
 |---|---|---|
-| `synthetic.jsonl` | 8,648 | teacher LLMs via an OpenAI-compatible endpoint: gemini-2.5-flash (first 1,856 pairs) and gemini-3.5-flash-lite (rest) |
+| `synthetic.jsonl` | 10,383 | teacher LLMs via an OpenAI-compatible endpoint: gemini-2.5-flash (first 1,856 pairs) and gemini-3.5-flash-lite (rest, incl. one focused weak-spot round) |
 | `seed.jsonl` | 200 | templates, no API cost |
 
 Record format, one JSON object per line:
@@ -32,6 +32,12 @@ it was accepted:
 
 In the final generation round the gate rejected about 2% of candidates
 (mostly duplicates), with zero API failures.
+
+After generation, two filter passes cleaned the file
+(`generate.py filter`): a stricter regex gate that drops names left
+unredacted after honorifics (186 pairs), and a model-assisted pass
+(`generate.py filter --model models/flan-t5-small-pii`) that drops pairs
+whose target leaves PII plain while a trained model redacts it (86 pairs).
 
 ## Regenerate
 

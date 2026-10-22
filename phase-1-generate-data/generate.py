@@ -23,6 +23,7 @@ import random
 import re
 import sys
 import time
+from collections import Counter
 from pathlib import Path
 
 from pydantic import BaseModel, Field
@@ -434,6 +435,50 @@ def run_filter(args: argparse.Namespace) -> None:
         print(f"Dropped ({reason}): {n}")
 
 
+def run_model_filter(args: argparse.Namespace) -> None:
+    """Drop pairs whose gold leaves PII plain that the model redacts.
+
+    A leaky gold teaches the model contradictory behavior and the fidelity
+    metric then punishes the model for being right. Loads a trained model,
+    generates a prediction per pair, and drops every pair where the
+    prediction contains more tags of a type than the gold — the model found
+    PII the teacher left unredacted.
+    """
+    import torch
+    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+
+    path = Path(args.file)
+    if not path.exists():
+        sys.exit(f"no such file: {path}")
+    device = "mps" if torch.backends.mps.is_available() else "cpu"
+    tokenizer = AutoTokenizer.from_pretrained(args.model)
+    model = AutoModelForSeq2SeqLM.from_pretrained(args.model).to(device).eval()
+
+    kept, dropped = [], {"model_vs_gold_tag_disagreement": 0}
+    lines = [l for l in path.read_text(encoding="utf-8").splitlines() if l.strip()]
+    with torch.no_grad():
+        for start in range(0, len(lines), 16):
+            batch = [json.loads(l) for l in lines[start:start + 16]]
+            enc = tokenizer(
+                ["redact: " + o["raw_input"] for o in batch],
+                return_tensors="pt", padding=True, truncation=True, max_length=256,
+            ).to(device)
+            out = model.generate(**enc, max_new_tokens=128)
+            preds = tokenizer.batch_decode(out, skip_special_tokens=True)
+            for line, pred, o in zip(lines[start:start + 16], preds, batch):
+                pc, gc = Counter(TAG_RE.findall(pred)), Counter(TAG_RE.findall(o["redacted_target"]))
+                if any(pc[t] > gc[t] for t in TAGS):
+                    dropped["model_vs_gold_tag_disagreement"] += 1
+                else:
+                    kept.append(line)
+            if start % 1600 == 0:
+                print(f"{start + len(batch)}/{len(lines)} scanned", file=sys.stderr)
+    path.write_text("\n".join(kept) + "\n", encoding="utf-8")
+    print(f"kept {len(kept)}, dropped {sum(dropped.values())} -> {path}")
+    for reason, n in sorted(dropped.items(), key=lambda kv: -kv[1]):
+        print(f"Dropped ({reason}): {n}")
+
+
 # -------------------------------------------------------------------- main ---
 
 def main() -> None:
@@ -454,12 +499,16 @@ def main() -> None:
 
     p_filter = sub.add_parser("filter", help="Re-run the QA gate on an existing file")
     p_filter.add_argument("--file", default="data/synthetic.jsonl")
+    p_filter.add_argument("--model", default=None,
+                          help="also drop pairs where the model redacts PII the gold left plain")
 
     args = parser.parse_args()
     if args.mode == "teacher":
         run_teacher(args)
     elif args.mode == "seed":
         run_seed(args)
+    elif args.mode == "filter" and args.model:
+        run_model_filter(args)
     else:
         run_filter(args)
 

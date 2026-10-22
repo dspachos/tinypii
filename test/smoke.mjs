@@ -3,6 +3,9 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 env.allowLocalModels = true;
 
+// anchor to this file so the test runs from any working directory
+const MODEL_PATH = new URL('../web/model', import.meta.url).pathname;
+
 const cases = [
   "Hi, I am Marcus Vance. Charge 4532-1182-9920-1092 and reach me at contact@acme.org.",
   "ph 555.010.9988 till 6",
@@ -13,7 +16,7 @@ const cases = [
 
 console.log('loading model (q8)...');
 const t0 = Date.now();
-const generator = await pipeline('text2text-generation', '../web/model', {
+const generator = await pipeline('text2text-generation', MODEL_PATH, {
   dtype: 'q8',
   device: 'cpu',
 });
