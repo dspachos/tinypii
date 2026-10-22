@@ -35,6 +35,11 @@ DIGIT_RUN_RE = re.compile(r"\d[\d .-]{5,}\d")
 # 13+ digit-ish run: card numbers only
 CARD_RUN_RE = re.compile(r"\d[\d .-]{11,}\d")
 EMAIL_RE = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
+# "Ms. D'Angelo" etc. in a target: a name the teacher left unredacted.
+# The tag convention keeps the honorific outside: "Ms. [NAME]".
+HONORIFIC_NAME_RE = re.compile(
+    r"\b(?:mr|mrs|ms|dr|prof)\.?\s+(?!\[)[A-Z]", re.IGNORECASE
+)
 
 SCENARIOS = [
     "e-commerce order or refund", "customer support chat", "hospital or clinic intake",
@@ -113,6 +118,8 @@ def qa_gate(raw: str, target: str) -> str | None:
     stripped = TAG_RE.sub(" ", target)
     if EMAIL_RE.search(stripped):
         return "email left unredacted"
+    if HONORIFIC_NAME_RE.search(target):
+        return "name after honorific left unredacted"
     if DIGIT_RUN_RE.search(stripped):
         return "digit run left unredacted"
     if target.count("[CREDIT_CARD]") > len(CARD_RUN_RE.findall(raw)):
@@ -406,6 +413,27 @@ def run_seed(args: argparse.Namespace) -> None:
     print(f"Seed pairs accepted: {accepted} -> {out_path} (rejected {rejected})")
 
 
+def run_filter(args: argparse.Namespace) -> None:
+    """Re-run the QA gate on an existing dataset file and drop failures."""
+    path = Path(args.file)
+    if not path.exists():
+        sys.exit(f"no such file: {path}")
+    kept, dropped = [], {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        obj = json.loads(line)
+        reason = qa_gate(obj["raw_input"], obj["redacted_target"])
+        if reason:
+            dropped[reason] = dropped.get(reason, 0) + 1
+        else:
+            kept.append(line)
+    path.write_text("\n".join(kept) + "\n", encoding="utf-8")
+    print(f"kept {len(kept)}, dropped {sum(dropped.values())} -> {path}")
+    for reason, n in sorted(dropped.items(), key=lambda kv: -kv[1]):
+        print(f"Dropped ({reason}): {n}")
+
+
 # -------------------------------------------------------------------- main ---
 
 def main() -> None:
@@ -424,11 +452,16 @@ def main() -> None:
     p_seed.add_argument("--target", type=int, default=200)
     p_seed.add_argument("--out", default="data/seed.jsonl")
 
+    p_filter = sub.add_parser("filter", help="Re-run the QA gate on an existing file")
+    p_filter.add_argument("--file", default="data/synthetic.jsonl")
+
     args = parser.parse_args()
     if args.mode == "teacher":
         run_teacher(args)
-    else:
+    elif args.mode == "seed":
         run_seed(args)
+    else:
+        run_filter(args)
 
 
 if __name__ == "__main__":
